@@ -56,11 +56,11 @@ echo "|                                                                  |";
 echo "|   ------------------------------------------------------------   |";
 echo "|   | Opt | Type                     | Version                 |   |";
 echo "|   ============================================================   |";
-echo "|   | [1] | Ubuntu                   | 14.04/15.04/15.10/16.04 |   |";
+echo "|   | [X] | Ubuntu                   | 14.04/15.04/15.10/16.04 |   |";
 echo "|   ------------------------------------------------------------   |";
 echo "|   | [2] | CentOS/RHEL/Cloud Linux  | 7                       |   |";
 echo "|   ------------------------------------------------------------   |";
-echo "|   | [3] | Debian                   | 7/8                     |   |";
+echo "|   | [X] | Debian                   | 7/8                     |   |";
 echo "|   ------------------------------------------------------------   |";
 echo "|                                                                  |";
 echo "o------------------------------------------------------------------o";
@@ -174,13 +174,22 @@ elif [ "${option}" = "2" ]; then
     echo "Progress [========           ] 40%";
     ./installers/centos/advandz-nginx.sh
 
+    # Installing Varnish
+    clear;
+    echo "==================================";
+    echo " Installing Varnish..."
+    echo "==================================";
+    echo " ";
+    echo "Progress [==========         ] 50%";
+    ./installers/centos/advandz-varnish.sh
+
     # Installing Percona Server
     clear;
     echo "==================================";
     echo " Installing Percona Server..."
     echo "==================================";
     echo " ";
-    echo "Progress [==========         ] 50%";
+    echo "Progress [============       ] 60%";
     PERCONA_ROOT_PASSWORD=$(./installers/centos/advandz-percona.sh);
 
     # Installing PowerDNS
@@ -189,7 +198,7 @@ elif [ "${option}" = "2" ]; then
     echo " Installing PowerDNS..."
     echo "==================================";
     echo " ";
-    echo "Progress [============       ] 60%";
+    echo "Progress [==============     ] 70%";
     POWERDNS_PASSWORD=$(./installers/centos/advandz-powerdns.sh $PERCONA_ROOT_PASSWORD);
 
     # Installing Pure-FTPD
@@ -198,16 +207,16 @@ elif [ "${option}" = "2" ]; then
     echo " Installing Pure-FTPD..."
     echo "==================================";
     echo " ";
-    echo "Progress [==============     ] 70%";
+    echo "Progress [================   ] 80%";
     ./installers/centos/advandz-pure-ftpd.sh
 
     # Installing Advandz
     clear;
     echo "==================================";
-    echo " Installing Advandz..."
+    echo " Installing Server Manager ..."
     echo "==================================";
     echo " ";
-    echo "Progress [================   ] 80%";
+    echo "Progress [================== ] 90%";
     # TODO 
 
     # Setting up
@@ -216,9 +225,9 @@ elif [ "${option}" = "2" ]; then
     echo " Setting up..."
     echo "==================================";
     echo " ";
-    echo "Progress [================== ] 90%";
+    echo "Progress [===================] 100%";
     ./installers/centos/advandz-configure.sh
-
+    
 elif [ "${option}" = "3" ]; then
     ##########################################
     # Debian Installation
