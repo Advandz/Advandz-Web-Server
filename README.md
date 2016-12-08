@@ -24,7 +24,7 @@ Percona Server for MySQL® is a free, fully compatible, enhanced, open source dr
 #### PowerDNS
 PowerDNS is a open source and Scalable DNS Server, featuring a large number of different backends ranging from simple BIND style zonefiles to relational databases and load balancing/failover algorithms.
 
-#### Pure-FTPD
+#### Pure-FTPd
 Pure-FTPd is a free, open source, secure, production-quality and standard-conformant FTP server. It doesn't provide useless bells and whistles, but focuses on efficiency and ease of use. It provides simple answers to common needs, plus unique useful features for personal users as well as hosting providers.
 
 #### Advandz Server Manager
