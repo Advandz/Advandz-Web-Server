@@ -4,7 +4,7 @@
 Advandz Web Server, is a high performance web server stacks featuring a powerful and open-source control panel.
 
 ### The Stack ###
-Advandz Web Server, is designed to be used in enterprise-class environments, large sites and demanding applications due this we have designed a Drop-in replacement of the classic LAMP stack, featuring:
+Advandz Web Server, has been designed to be used in enterprise-class environments, large sites and demanding applications and be a Drop-in replacement of the classic LAMP stack, featuring a high performance and scalable stack.
 
 #### Apache
 We decided to implement Apache to give the maximum compatibility with all the actual products on the market, but we know that is not the best server in terms of performance, due to this we have developed Advandz Web Server, that includes an Apache booster that use an integration of NGINX and Varnish that caches both the static and dynamic contents which help the web server to serve the content from the cache every time it is requested.
