@@ -1,7 +1,7 @@
 # Advandz Web Server #
 ### High Performance Web Server. ###
 
-Advandz Web Server, is a high performance web server stacks featuring a powerful and open-source control panel.
+Advandz Web Server, is a high performance web server stack featuring a powerful and open-source control panel.
 
 ### The Stack ###
 Advandz Web Server, has been designed to be used in enterprise-class environments, large sites and demanding applications and be a Drop-in replacement of the classic LAMP stack, featuring a high performance and scalable stack.

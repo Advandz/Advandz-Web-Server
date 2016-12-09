@@ -14,6 +14,22 @@
 # @author The Advandz Team <team@advandz.com>
 # 
 
+#
+# Modifies the value of a KEY = VALUE pair.
+# @param string Target Key
+# @param string New value
+# @param string Pair delimiter
+# @param dir File location
+# 
+function setvalue {
+    TARGET_KEY=$1;
+    REPLACEMENT_VALUE=$2;
+    DELIMITER=$3;
+    CONFIG_FILE=$4;
+
+    sed -c -i "s/\($TARGET_KEY *$DELIMITER *\).*/\1$REPLACEMENT_VALUE/" $CONFIG_FILE
+}
+
 # Configure Advandz Environment
 HOSTNAME=$(hostname);
 CPU_CORES=$(grep ^proces /proc/cpuinfo | wc -l);
@@ -27,10 +43,10 @@ mkdir /etc/advandz/panel
 mkdir /etc/advandz/logs
 mkdir /etc/advandz/www
 mkdir /etc/advandz/www/cgi-bin
-mv installers/centos/scripts /etc/advandz/scripts
-groupadd advandz
-useradd -d /etc/advandz/ -g advandz -s /bin/nologin advandz
-chown -R advandz:advandz /etc/advandz/
+mv installers/centos/scripts /etc/advandz/scripts >> /dev/null 2>&1;
+groupadd advandz >> /dev/null 2>&1;
+useradd -d /etc/advandz/ -g advandz -s /bin/nologin advandz >> /dev/null 2>&1;
+chown -R advandz:advandz /etc/advandz/ >> /dev/null 2>&1;
 
 {
     echo "<html>";
@@ -87,15 +103,15 @@ firewall-cmd --permanent --add-port=4343/tcp >> /dev/null 2>&1;
 firewall-cmd --reload >> /dev/null 2>&1;
 
 # Configure Apache
-cp /etc/httpd/conf/httpd.conf /etc/httpd/conf/httpd.conf.bak
-rm -rf /etc/httpd/conf/httpd.conf
-rm -rf /etc/httpd/conf.modules.d/10-fcgid.conf
-cp installers/centos/config/httpd.conf /etc/httpd/conf/httpd.conf
-cp installers/centos/config/10-fcgid.conf /etc/httpd/conf.modules.d/10-fcgid.conf
+cp /etc/httpd/conf/httpd.conf /etc/httpd/conf/httpd.conf.bak >> /dev/null 2>&1;
+rm -rf /etc/httpd/conf/httpd.conf >> /dev/null 2>&1;
+rm -rf /etc/httpd/conf.modules.d/10-fcgid.conf >> /dev/null 2>&1;
+cp installers/centos/config/httpd.conf /etc/httpd/conf/httpd.conf >> /dev/null 2>&1;
+cp installers/centos/config/10-fcgid.conf /etc/httpd/conf.modules.d/10-fcgid.conf >> /dev/null 2>&1;
 yum -y install mod_fcgid >> /dev/null 2>&1;
 yum -y install mod_proxy_fcgi >> /dev/null 2>&1;
-mkdir /etc/httpd/sites-available
-mkdir /etc/httpd/sites-enabled
+mkdir /etc/httpd/sites-available >> /dev/null 2>&1;
+mkdir /etc/httpd/sites-enabled >> /dev/null 2>&1;
 
 # Create Hostname Vhost
 {
@@ -130,12 +146,3 @@ cp installers/centos/config/varnish.params /etc/varnish/varnish.params
 service httpd restart >> /dev/null 2>&1;
 service nginx restart >> /dev/null 2>&1;
 service varnish restart >> /dev/null 2>&1;
-
-function setvalue {
-    TARGET_KEY=$1;
-    REPLACEMENT_VALUE=$2;
-    DELIMITER=$3;
-    CONFIG_FILE=$4;
-
-    sed -c -i "s/\($TARGET_KEY *$DELIMITER *\).*/\1$REPLACEMENT_VALUE/" $CONFIG_FILE
-}

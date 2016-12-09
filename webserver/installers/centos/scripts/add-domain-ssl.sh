@@ -79,6 +79,8 @@ function add_domain_ssl {
             # Restart Servers
             service httpd restart >> /dev/null 2>&1;
             service nginx restart >> /dev/null 2>&1;
+
+            echo "SUCCESS : SSL has been enabled in the domain succesfully. : $APACHE_DOMAIN";
         else
             echo "ERROR : The SSL Certificate or Private Key not exists. : $APACHE_DOMAIN";
             exit;
