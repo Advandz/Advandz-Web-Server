@@ -14,11 +14,24 @@
 # @author The Advandz Team <team@advandz.com>
 # 
 
-# Install Apache
-yum -y install httpd >> /dev/null 2>&1;
-yum -y install mod_security >> /dev/null 2>&1;
-yum -y install mod_evasive >> /dev/null 2>&1;
-yum -y install mod_ssl >> /dev/null 2>&1;
+#
+# Usage:
+#   ./flush-varnish-cache.sh --[domain]
+# Example:
+# ./flush-varnish-cache.sh google.com
+#
 
-systemctl enable httpd >> /dev/null 2>&1;
-systemctl start httpd >> /dev/null 2>&1;
+#
+# Script
+#
+DOMAIN=$1;
+DOMAIN_REGEX=$(echo $DOMAIN| grep -P '(?=^.{5,254}$)(^(?:(?!\d+\.)[a-zA-Z0-9_\-]{1,63}\.?)+(?:[a-zA-Z]{2,})$)');
+
+# Add to Apache
+if [ -z "$DOMAIN_REGEX" ]; then
+    echo "ERROR : The entered domain is not valid. : $DOMAIN";
+    exit;
+else
+    varnishadm -T 127.0.0.1:80 $DOMAIN >> /dev/null 2>&1;
+    echo "SUCCESS : Domain cache has been flushed succesfully. : $APACHE_DOMAIN";
+fi

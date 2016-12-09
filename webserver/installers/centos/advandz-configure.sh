@@ -104,10 +104,13 @@ firewall-cmd --reload >> /dev/null 2>&1;
 
 # Configure Apache
 cp /etc/httpd/conf/httpd.conf /etc/httpd/conf/httpd.conf.bak >> /dev/null 2>&1;
+cp /etc/httpd/conf.d/ssl.conf /etc/httpd/conf.d/ssl.conf.bak >> /dev/null 2>&1;
 rm -rf /etc/httpd/conf/httpd.conf >> /dev/null 2>&1;
 rm -rf /etc/httpd/conf.modules.d/10-fcgid.conf >> /dev/null 2>&1;
+rm -rf /etc/httpd/conf.d/ssl.conf >> /dev/null 2>&1;
 cp installers/centos/config/httpd.conf /etc/httpd/conf/httpd.conf >> /dev/null 2>&1;
 cp installers/centos/config/10-fcgid.conf /etc/httpd/conf.modules.d/10-fcgid.conf >> /dev/null 2>&1;
+cp installers/centos/config/ssl.conf /etc/httpd/conf.d/ssl.conf >> /dev/null 2>&1;
 yum -y install mod_fcgid >> /dev/null 2>&1;
 yum -y install mod_proxy_fcgi >> /dev/null 2>&1;
 mkdir /etc/httpd/sites-available >> /dev/null 2>&1;

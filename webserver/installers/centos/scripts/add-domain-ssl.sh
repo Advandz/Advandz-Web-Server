@@ -66,7 +66,7 @@ function add_domain_ssl {
                 echo "    ssl_certificate $SSL_CERT_NGINX;";
                 echo "    ssl_certificate_key $SSL_KEY;";
                 echo "    location / {";
-                echo "        proxy_pass http://127.0.0.1:4343;";
+                echo "        proxy_pass https://127.0.0.1:4343;";
                 echo "        proxy_set_header X-Real-IP  \$remote_addr;";
                 echo "        proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;";
                 echo "        proxy_set_header X-Forwarded-Proto https;";
