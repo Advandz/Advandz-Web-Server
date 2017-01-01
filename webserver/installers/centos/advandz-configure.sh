@@ -145,7 +145,13 @@ cp /etc/varnish/varnish.params /etc/varnish/varnish.params.bak
 rm -rf /etc/varnish/varnish.params
 cp installers/centos/config/varnish.params /etc/varnish/varnish.params
 
+# Configue Pure FTPD
+cp /etc/pure-ftpd/pure-ftpd.conf /etc/pure-ftpd/pure-ftpd.conf.bak
+rm -rf /etc/pure-ftpd/pure-ftpd.conf
+cp installers/centos/config/pure-ftpd.conf /etc/pure-ftpd/pure-ftpd.conf
+
 # Restart services
 service httpd restart >> /dev/null 2>&1;
 service nginx restart >> /dev/null 2>&1;
 service varnish restart >> /dev/null 2>&1;
+service pure-ftpd restart >> /dev/null 2>&1;

@@ -29,6 +29,10 @@ function add_domain {
     APACHE_DOMAIN=$1;
     DIRECTORY="/etc/advandz/domains/$APACHE_DOMAIN";
 
+    USER_DELIMITER="";
+    DOMAIN_USER=$(echo ${APACHE_DOMAIN/./$USER_DELIMITER});
+    OS_USER=$(echo $DOMAIN_USER|cut -c1-30);
+
     if [ -d "$DIRECTORY" ]; then
         echo "ERROR : The entered domain already exists. : $APACHE_DOMAIN";
         exit;
@@ -38,7 +42,11 @@ function add_domain {
     mkdir /etc/advandz/domains/$APACHE_DOMAIN/public_html/cgi-bin;
     mkdir /etc/advandz/domains/$APACHE_DOMAIN/logs;
     mkdir /etc/advandz/domains/$APACHE_DOMAIN/ssl;
-    chown -R advandz:advandz /etc/advandz/domains/$APACHE_DOMAIN;
+
+    groupadd $OS_USER >> /dev/null 2>&1;
+    useradd -d /etc/advandz/domains/$APACHE_DOMAIN -g $OS_USER -s /bin/nologin $OS_USER >> /dev/null 2>&1;
+    chown -R $OS_USER:$OS_USER /etc/advandz/domains/$APACHE_DOMAIN >> /dev/null 2>&1;
+
     {
         echo "<html>";
         echo "<head>";
@@ -53,26 +61,31 @@ function add_domain {
     # Create Domain Vhost
     {
         echo "<VirtualHost *:8080>";
+        echo "  AddHandler \"proxy:fcgi://127.0.0.1:9001/\" .php";
+        echo "  AddHandler \"proxy:fcgi://127.0.0.1:9001/\" .hh";
         echo "  ServerName $APACHE_DOMAIN";
         echo "  ServerAlias www.$APACHE_DOMAIN";
         echo "  ServerAdmin webmaster@$APACHE_DOMAIN";
-        echo "  DirectoryIndex index.html index.php";
+        echo "  DirectoryIndex index.html index.php index.hh";
         echo "  DocumentRoot /etc/advandz/domains/$APACHE_DOMAIN/public_html";
         echo "  ErrorLog /etc/advandz/domains/$APACHE_DOMAIN/logs/error.log";
         echo "  CustomLog /etc/advandz/domains/$APACHE_DOMAIN/logs/access.log combined";
         echo "  ScriptAlias /cgi-bin/ \"/etc/advandz/domains/$APACHE_DOMAIN/public_html/cgi-bin/\"";
-        echo "  ProxyPassMatch ^/(.+\.(hh|php)(/.*)?)$ fcgi://127.0.0.1:9001/etc/advandz/domains/$APACHE_DOMAIN/public_html/\$1";
+        echo "  <IfModule mpm_itk.c>";
+        echo "      AssignUserID $OS_USER $OS_USER";
+        echo "  </IfModule>";
         echo "</VirtualHost>";
         echo "<Directory \"/etc/advandz/domains/$APACHE_DOMAIN/public_html\">";
-        echo "  Options Indexes FollowSymLinks";
-        echo "  AllowOverride FileInfo";
+        echo "  Options +Indexes +FollowSymLinks +SymLinksifOwnerMatch";
+        echo "  IndexOptions FancyIndexing";
+        echo "  AllowOverride All";
         echo "</Directory>";
     } >/etc/httpd/sites-enabled/$APACHE_DOMAIN.conf
 
     # Restart Apache
     service httpd restart >> /dev/null 2>&1;
 
-    echo "SUCCESS : Domain has been added succesfully. : $APACHE_DOMAIN";
+    echo "SUCCESS : Domain has been added succesfully. : $OS_USER";
 }
 
 #

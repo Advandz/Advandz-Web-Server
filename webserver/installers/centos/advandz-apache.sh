@@ -14,11 +14,20 @@
 # @author The Advandz Team <team@advandz.com>
 # 
 
+# Install EPEL
+yum update -y  >> /dev/null 2>&1;
+rpm -Uvh http://dl.fedoraproject.org/pub/epel/7/x86_64/e/epel-release-7-8.noarch.rpm  >> /dev/null 2>&1;
+
 # Install Apache
-yum -y install httpd >> /dev/null 2>&1;
+yum -y install httpd httpd-itk >> /dev/null 2>&1;
 yum -y install mod_security >> /dev/null 2>&1;
 yum -y install mod_evasive >> /dev/null 2>&1;
 yum -y install mod_ssl >> /dev/null 2>&1;
+
+# Configure Mod_MPM_ITK
+{
+    echo "LoadModule mpm_itk_module modules/mod_mpm_itk.so";
+} >/etc/httpd/conf.modules.d/00-mpm-itk.conf
 
 systemctl enable httpd >> /dev/null 2>&1;
 systemctl start httpd >> /dev/null 2>&1;

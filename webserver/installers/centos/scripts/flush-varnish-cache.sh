@@ -33,5 +33,5 @@ if [ -z "$DOMAIN_REGEX" ]; then
     exit;
 else
     varnishadm -T 127.0.0.1:80 $DOMAIN >> /dev/null 2>&1;
-    echo "SUCCESS : Domain cache has been flushed succesfully. : $APACHE_DOMAIN";
+    echo "SUCCESS : Domain cache has been flushed succesfully. : $DOMAIN";
 fi

@@ -48,7 +48,7 @@ function add_domain_ssl {
                 echo "  ServerName $APACHE_DOMAIN";
                 echo "  ServerAlias www.$APACHE_DOMAIN";
                 echo "  ServerAdmin webmaster@$APACHE_DOMAIN";
-                echo "  DirectoryIndex index.html index.php";
+                echo "  DirectoryIndex index.html index.php index.hh";
                 echo "  DocumentRoot /etc/advandz/domains/$APACHE_DOMAIN/public_html";
                 echo "  ErrorLog /etc/advandz/domains/$APACHE_DOMAIN/logs/error.log";
                 echo "  CustomLog /etc/advandz/domains/$APACHE_DOMAIN/logs/access.log combined";

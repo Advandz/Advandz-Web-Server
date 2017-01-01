@@ -21,10 +21,6 @@ SERVER_ARCHITECTURE=$(uname -m);
 SERVER_RAM=$(grep MemTotal /proc/meminfo | awk '{print $2}');
 SERVER_RAM_GB_INT=$(expr $SERVER_RAM / 1000000);
 SERVER_HOSTNAME=$(hostname);
-PERCONA_ROOT_PASSWORD=$(date +%s | sha256sum | base64 | head -c 12 ; echo);
-sleep 1;
-POWERDNS_PASSWORD=$(date +%s | sha256sum | base64 | head -c 12 ; echo);
-sleep 1;
 ADVANDZ_PASSWORD=$(date +%s | sha256sum | base64 | head -c 12 ; echo);
 OSV=$(rpm -q --queryformat '%{VERSION}' centos-release);
 
@@ -208,7 +204,7 @@ elif [ "${option}" = "2" ]; then
     echo "==================================";
     echo " ";
     echo "Progress [================   ] 80%";
-    ./installers/centos/advandz-pure-ftpd.sh
+    PUREFTPD_PASSWORD=$(./installers/centos/advandz-pure-ftpd.sh $PERCONA_ROOT_PASSWORD);
 
     # Installing Advandz
     clear;
@@ -261,7 +257,11 @@ echo "|   PowerDNS Database User: powerdns                               |";
 echo "|   PowerDNS Database Name: powerdns                               |";
 echo "|   PowerDNS Database Password: $POWERDNS_PASSWORD                       |";
 echo "|                                                                  |";
-echo "|   You can access to http://$SERVER_HOSTNAME:2083/  ";
+echo "|   Pure-FTPD Database User: pureftpd                              |";
+echo "|   Pure-FTPD Database Name: pureftpd                              |";
+echo "|   Pure-FTPD Database Password: $PUREFTPD_PASSWORD                      |";
+echo "|                                                                  |";
+echo "|   You can access to http://$SERVER_HOSTNAME:2083/";
 echo "|                                                                  |";
 echo "|   NOTE: Before restart your server we recommend execute          |";
 echo "|   \"mysql_secure_installation\" for secure your installation.      |";
