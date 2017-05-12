@@ -27,7 +27,7 @@ OSV=$(rpm -q --queryformat '%{VERSION}' centos-release);
 #
 # Architecture Error
 #
-if [ ${SERVER_ARCHITECTURE} != 'x86_64' ]; then
+if [ "${SERVER_ARCHITECTURE}" != 'x86_64' ]; then
     clear;
     echo "o------------------------------------------------------------------o";
     echo "| Advandz Web Server Installer                                v1.0 |";
